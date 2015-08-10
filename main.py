@@ -51,12 +51,14 @@ class RootBox(BoxLayout):
         try:
             userid = store.get('account')['userid']
             password = store.get('account')['password']
+            host = store.get('server')['host']
+            port = store.get('server')['port']
         except KeyError:
             self.ids.connection_label.text = 'No Username Set'
         else:
             # create the chat client and start processing on separate thread
             self.chat_client = ChatClient(self, userid, password)
-            self.chat_client.connect(('talk.google.com', 5222))
+            self.chat_client.connect((host, port))
             self.chat_client.process(block=False)  
 
     def quit_pushed(self, *args):
